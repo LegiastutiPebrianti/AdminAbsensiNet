@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard Admin</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+<body class="bg-gray-200">
+  <div class="flex h-screen">
+    <!-- Sidebar -->
+    <div class="w-16 bg-white flex flex-col items-center py-4 space-y-8">
+      <a href="dashboard.html" class="text-2xl"><i class="fas fa-home"></i></a>
+      <a href="manajemen.html" class="text-2xl"><i class="fas fa-users"></i></a>
+      <a href="laporanKehadiran.html" class="text-2xl"><i class="fas fa-file-alt"></i></a>
+      <a href="#" class="text-2xl" id="logout"><i class="fas fa-sign-out-alt"></i></a>
+    </div>
+
+    <!-- Content -->
+    <div class="flex-1 p-6">
+      <div class="flex justify-between items-center mb-6">
+        <div>
+          <h1 class="text-2xl font-bold">Dashboard Admin</h1>
+          <p class="text-gray-600">Selamat datang kembali, Admin</p>
+        </div>
+        <div class="flex space-x-4">
+          <!-- Hapus ikon lonceng di sini -->
+          <a href="profil.html" class="text-2xl"><i class="fas fa-user-circle"></i></a>
+        </div>
+      </div>
+
+      <!-- Dashboard Cards -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+        <div class="bg-white p-6 rounded-lg shadow flex items-center justify-between">
+          <div>
+            <h3 class="text-lg font-semibold">Total Mahasiswa Hadir</h3>
+            <p class="text-2xl font-bold">1.023</p>
+          </div>
+          <div class="w-12 h-12 bg-green-500 text-white rounded-full flex items-center justify-center text-2xl">
+            <i class="fas fa-user-check"></i>
+          </div>
+        </div>
+        <div class="bg-white p-6 rounded-lg shadow flex items-center justify-between">
+          <div>
+            <h3 class="text-lg font-semibold">Tingkat Kehadiran Hari Ini</h3>
+            <p class="text-2xl font-bold">92%</p>
+          </div>
+          <div class="w-12 h-12 bg-purple-500 text-white rounded-full flex items-center justify-center text-2xl">
+            <i class="fas fa-chart-line"></i>
+          </div>
+        </div>
+        <div class="bg-white p-6 rounded-lg shadow flex items-center justify-between">
+          <div>
+            <h3 class="text-lg font-semibold">Mahasiswa Terlambat</h3>
+            <p class="text-2xl font-bold">45</p>
+          </div>
+          <div class="w-12 h-12 bg-yellow-500 text-white rounded-full flex items-center justify-center text-2xl">
+            <i class="fas fa-clock"></i>
+          </div>
+        </div>
+        <div class="bg-white p-6 rounded-lg shadow flex items-center justify-between">
+          <div>
+            <h3 class="text-lg font-semibold">Tidak Hadir</h3>
+            <p class="text-2xl font-bold">23</p>
+          </div>
+          <div class="w-12 h-12 bg-red-500 text-white rounded-full flex items-center justify-center text-2xl">
+            <i class="fas fa-user-times"></i>
+          </div>
+        </div>
+      </div>
+
+      <!-- Kehadiran Hari Ini Table -->
+      <div>
+        <h2 class="text-xl font-bold mb-4">Kehadiran Hari Ini</h2>
+        <table class="min-w-full bg-white rounded-lg shadow overflow-hidden">
+          <thead class="bg-gray-100">
+            <tr>
+              <th class="py-3 px-4 text-left">Nama</th>
+              <th class="py-3 px-4 text-left">Waktu</th>
+              <th class="py-3 px-4 text-left">Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="border-t">
+              <td class="py-3 px-4">Legiastuti Pebrianti</td>
+              <td class="py-3 px-4">13:24</td>
+              <td class="py-3 px-4 text-green-500 font-bold">Hadir</td>
+            </tr>
+            <tr class="border-t">
+              <td class="py-3 px-4">Amaliah Nurul Fadhilah</td>
+              <td class="py-3 px-4">13:15</td>
+              <td class="py-3 px-4 text-green-500 font-bold">Hadir</td>
+            </tr>
+            <tr class="border-t">
+              <td class="py-3 px-4">Tristia Desiana Paregrin</td>
+              <td class="py-3 px-4">13:49</td>
+              <td class="py-3 px-4 text-yellow-500 font-bold">Terlambat</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Font Awesome -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
+
+  <!-- Validasi Login -->
+  <script>
+    // Validasi login saat halaman dimuat
+    document.addEventListener('DOMContentLoaded', function () {
+      const loggedUser = JSON.parse(localStorage.getItem('loggedUser'));
+      if (!loggedUser) {
+        alert('Anda harus login terlebih dahulu.');
+        window.location.href = 'index.html'; // Redirect ke halaman login
+      } else {
+        console.log('Selamat datang, ' + loggedUser.username);
+      }
+
+      // Logout logika
+      document.getElementById('logout').addEventListener('click', function () {
+        localStorage.removeItem('loggedUser');
+        alert('Anda telah logout.');
+        window.location.href = 'index.html'; // Redirect ke halaman login
+      });
+    });
+  </script>
+</body>
+</html>

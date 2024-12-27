@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manajemen</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+<body class="bg-gray-200">
+    <div class="flex h-screen">
+        <!-- Sidebar -->
+        <div class="w-16 bg-white flex flex-col items-center py-4 space-y-8">
+            <a href="dashboard.html" class="text-2xl"><i class="fas fa-home"></i></a>
+            <a href="manajemen.html" class="text-2xl"><i class="fas fa-users"></i></a>
+            <a href="laporanKehadiran.html" class="text-2xl"><i class="fas fa-file-alt"></i></a>
+            <a href="index.html" class="text-2xl"><i class="fas fa-sign-out-alt"></i></a>
+        </div>
+
+        <!-- Main Content -->
+        <div class="flex-1 p-6">
+            <div class="flex justify-between items-center mb-6">
+                <div>
+                    <h1 class="text-2xl font-bold">Manajemen</h1>
+                    <p class="text-gray-600">Kelola Pengguna dan Laporan</p>
+                </div>
+                <div class="flex space-x-4">
+                    <!-- Ikon Profil dengan Tautan ke Halaman Profil -->
+                    <a href="profil.html" class="text-2xl"><i class="fas fa-user-circle"></i></a>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-lg shadow p-4">
+                <!-- Add User Button -->
+                <div class="flex justify-end mb-4">
+                    <button id="addUserBtn" class="bg-blue-500 text-white px-4 py-2 rounded-lg">Tambah Mahasiswa</button>
+                </div>
+
+                <!-- Search Bar -->
+                <div class="flex items-center mb-4">
+                    <input type="text" id="search" placeholder="Cari Pengguna" class="border rounded-lg px-4 py-2 w-full">
+                </div>
+
+                <!-- Table -->
+                <div class="overflow-x-auto mx-auto w-full">
+                    <table class="w-full text-left text-center">
+                        <thead>
+                            <tr>
+                                <th class="py-2">Nama</th>
+                                <th class="py-2">Prodi</th>
+                                <th class="py-2">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="userTable">
+                            <!-- Dynamic content will be injected here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Data pengguna (simulasi database)
+        let users = [
+            { nama: "Legiastuti Pebrianti", prodi: "Ilmu Komputer" },
+            { nama: "Amaliah Nurul Fadillah", prodi: "Ilmu Komputer" },
+            { nama: "Tristia Desiana", prodi: "Ilmu Komputer" },
+            { nama: "Jian Jenistiani", prodi: "Ilmu Komputer" }
+        ];
+
+        const userTable = document.getElementById('userTable');
+        const searchInput = document.getElementById('search');
+        const addUserBtn = document.getElementById('addUserBtn');
+
+        // Fungsi untuk menampilkan data pengguna
+        function renderTable(data) {
+            userTable.innerHTML = '';
+            data.forEach((user, index) => {
+                userTable.innerHTML += `
+                    <tr class="border-t">
+                        <td class="py-2">${user.nama}</td>
+                        <td class="py-2">${user.prodi}</td>
+                        <td class="py-2">
+                            <button onclick="editUser(${index})" class="text-blue-500"><i class="fas fa-edit"></i></button>
+                            <button onclick="deleteUser(${index})" class="text-red-500 ml-2"><i class="fas fa-trash"></i></button>
+                        </td>
+                    </tr>
+                `;
+            });
+        }
+
+        // Fungsi untuk menghapus pengguna
+        function deleteUser(index) {
+            if (confirm('Apakah Anda yakin ingin menghapus pengguna ini?')) {
+                users.splice(index, 1);
+                renderTable(users);
+            }
+        }
+
+        // Fungsi untuk mengedit pengguna
+        function editUser(index) {
+            const newName = prompt('Masukkan nama baru:', users[index].nama);
+            const newProdi = prompt('Masukkan prodi baru:', users[index].prodi);
+
+            if (newName && newProdi) {
+                users[index] = { nama: newName, prodi: newProdi };
+                renderTable(users);
+            } else {
+                alert('Perubahan dibatalkan. Semua data harus diisi!');
+            }
+        }
+
+        // Fungsi untuk menambahkan pengguna baru
+        addUserBtn.addEventListener('click', () => {
+            const nama = prompt('Masukkan nama mahasiswa:');
+            const prodi = prompt('Masukkan prodi mahasiswa:');
+
+            if (nama && prodi) {
+                users.push({ nama, prodi });
+                renderTable(users);
+            } else {
+                alert('Data tidak lengkap. Penambahan dibatalkan!');
+            }
+        });
+
+        // Fungsi untuk mencari pengguna
+        searchInput.addEventListener('input', (e) => {
+            const query = e.target.value.toLowerCase();
+            const filteredUsers = users.filter(user => 
+                user.nama.toLowerCase().includes(query) ||
+                user.prodi.toLowerCase().includes(query)
+            );
+            renderTable(filteredUsers);
+        });
+
+        // Render tabel pertama kali
+        renderTable(users);
+    </script>
+</body>
+</html>

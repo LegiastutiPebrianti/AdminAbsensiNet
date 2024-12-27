@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sistem Informasi Kerja Praktik</title>
+  <link rel="stylesheet" href="style.css"> <!-- Menghubungkan file CSS -->
+</head>
+<body>
+  <div class="container">
+    <!-- Halaman Home -->
+    <div class="page active" id="home">
+      <h1>ith</h1>
+      <p>Sistem Informasi Kerja Praktik</p>
+      <p>Selamat datang di halaman admin. Silakan masuk untuk mengelola data.</p>
+      <div class="buttons">
+        <button class="btn" onclick="showPage('login')">Masuk</button>
+        <button class="btn" onclick="showPage('register')">Daftar</button>
+      </div>
+    </div>
+
+    <!-- Halaman Login -->
+    <div class="page" id="login">
+      <form class="form-box">
+        <h2>Selamat Datang!</h2>
+        <input type="text" id="username" placeholder="Username/Email" required>
+        <input type="password" id="password" placeholder="Password" required>
+        <button type="submit" class="btn">Masuk</button>
+        <p>Belum punya akun? <a href="#" onclick="showPage('register')">Daftar</a></p>
+        <button class="btn" style="background-color: #ccc;" onclick="showPage('home')">Kembali</button>
+      </form>
+    </div>
+
+    <!-- Halaman Register -->
+    <div class="page" id="register">
+      <form class="form-box" id="register-form">
+        <h2>Buat Akun</h2>
+        <input type="text" id="reg-username" placeholder="Username" required>
+        <input type="email" id="reg-email" placeholder="Email" required>
+        <input type="password" id="reg-password" placeholder="Kata Sandi" required>
+        <input type="password" id="reg-confirm-password" placeholder="Konfirmasi Kata Sandi" required>
+        <button type="submit" class="btn">Daftar</button>
+        <p>Sudah punya akun? <a href="#" onclick="showPage('login')">Masuk</a></p>
+        <button class="btn" style="background-color: #ccc;" onclick="showPage('home')">Kembali</button>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    // Fungsi untuk mengganti halaman
+    function showPage(pageId) {
+      const pages = document.querySelectorAll('.page');
+      pages.forEach(page => {
+        page.classList.remove('active');
+      });
+      document.getElementById(pageId).classList.add('active');
+    }
+
+    // Menyimpan data saat registrasi
+    document.getElementById('register-form').addEventListener('submit', function(event) {
+      event.preventDefault();
+      const username = document.getElementById('reg-username').value;
+      const email = document.getElementById('reg-email').value;
+      const password = document.getElementById('reg-password').value;
+      const confirmPassword = document.getElementById('reg-confirm-password').value;
+
+      if (password === confirmPassword) {
+        const newUser = { username, email, password };
+        localStorage.setItem('user', JSON.stringify(newUser)); // Menyimpan pengguna ke localStorage
+        alert('Akun berhasil dibuat. Silakan login.');
+        showPage('login');
+      } else {
+        alert('Password tidak cocok!');
+      }
+    });
+
+    // Login
+    document.querySelector('#login form').addEventListener('submit', function(event) {
+      event.preventDefault();
+      const username = document.getElementById('username').value;
+      const password = document.getElementById('password').value;
+      
+      const storedUser = JSON.parse(localStorage.getItem('user'));
+
+      if (storedUser && storedUser.username === username && storedUser.password === password) {
+        localStorage.setItem('loggedUser', JSON.stringify({ username: username }));
+        window.location.href = 'dashboard.html';
+      } else {
+        alert('Username atau password salah.');
+      }
+    });
+  </script>
+</body>
+</html>
